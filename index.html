@@ -85,9 +85,9 @@ $(document).ready(function(){
 
 </head>
 
-<form name="input" action="result.php" method="get">
+<form action="result.php" method="post">
 <div style = "text-align:center;">
-<br><br> <input type="text" id = "input" style="width:500px;height:20px;font-size:18px;" >
+<br><br> <input type="text" id = "input" name="input"  style="width:500px;height:20px;font-size:18px;" >
 <!-- Send course from here --><input type = "submit" value = "Search" id ="search" onclick="search()" style="width:70px;font-size:15px;"> <br><br>
 </div>
 </form>
