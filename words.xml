@@ -17,37 +17,14 @@
 		<cb>cb123</cb>
 	</c>
 	<e>
-		<eced></eced><eece>
-	<eece210>
-		<section201>
-			<Title>TPCS BIOMED ENG</Title>
-			<Professor>Rohling, Robert N</Professor>
-			<Enrolled>23</Enrolled>
-			<Avg>94.78</Avg>
-			<Std_dev>1.04</Std_dev>
-			<Highest>95</Highest>
-			<Lowest>90</Lowest>
-			<Pass>23</Pass><Fail>0</Fail>
-			<Withdraw>0</Withdraw>
-			<Audit>0</Audit>
-			<Other>0</Other>
-			<mark0-9>0</mark0-9>
-			<mark10-19>0</mark10-19>
-			<mark20-29>0</mark20-29>
-			<mark30-39>0</mark30-39>
-			<mark40-49>0</mark40-49>
-			<markLessThan50>0</markLessThan50>
-			<mark50-54>0</mark50-54>
-			<mark55-59>0</mark55-59>
-			<mark60-63>0</mark60-63>
-			<mark64-67>0</mark64-67>
-			<mark68-71>0</mark68-71>
-			<mark72-75>0</mark72-75>
-			<mark76-79>0</mark76-79>
-			<mark80-84>0</mark80-84>
-			<mark85-89>0</mark85-89>
-			<mark90-100>23</mark90-100></section201></eece210>
-	<eece320></eece320>
-	<eece315></eece315></eece>
+		<ee>
+			eeece000
+			<eece></eece></ee><eced>ECED100</eced><eece>EECE310</eece>
+		<eece></eece>
+		<eece></eece>
 		</e>
+	<eece>EECE310</eece>
+	<eece>EECE315</eece>
+	<eece>EECE320</eece>
+	<eece>EECE353</eece>
 </CATALOG>

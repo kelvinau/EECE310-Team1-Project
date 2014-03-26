@@ -1,10 +1,5 @@
 <?php
-
-$user = "root";
-$password = "Abc123456789";
-$db = "course_info";
-
-$con = mysqli_connect("localhost",$user,$password,$db);
+include 'db_config.php';
 
 $result = mysqli_query($con,"SELECT * FROM COURSE_INFO");
 
