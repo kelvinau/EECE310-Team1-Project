@@ -17,7 +17,7 @@
 		
 <script>
 function search(){
-	location.href = "Result.html";
+	location.href = "result.html";
 }
 
 function changeInput(num){
@@ -37,58 +37,27 @@ function clearData(){
 
 $(document).ready(function(){
 	$("input").keyup(function(){
-	var input= document.getElementById("input");
-	var key= input.value	
-	
-	if (window.XMLHttpRequest)
-	  {// for IE7+, Firefox, Chrome, Opera, Safari
-	  xmlhttp=new XMLHttpRequest();
-	  }
-	else
-	  {// for IE6, IE5
-	  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-	  }
-	xmlhttp.open("GET","words.xml",false);
-	xmlhttp.send();
-	xmlDoc=xmlhttp.responseXML; 
-
-	var x=xmlDoc.getElementsByTagName(key[0]);
-	
-	if (key.length == 0)
-		clearData();
-	else{
-		for (i=0;i<x.length;i++){
-	 	 //Print same category
-	 	 if (key.length == 1){
-			 clearData();
-	 		 var y = xmlDoc.getElementsByTagName(key[0])[0].childNodes;
-	 		 for (j=0,k=0; j< y.length && k < 6 ; j++){
-	 			 if (j%2 != 0){
-	 				 document.getElementById("data"+k).innerHTML = y[j].textContent;
-	 				 k++;
-	 			 }
-	 	  	 }
-	 	 }
-	 	 else if (key.length ==2){
-	 		 clearData();
-	 		 for (j=0; j < (x[i].getElementsByTagName(key[0]+key[1])).length;j++)
-	 			 document.getElementById("data"+j).innerHTML = x[i].getElementsByTagName(key[0]+key[1])[j].childNodes[0].textContent;
-	 	 }
-	 	 else
-	 		 clearData();
+		var input= document.getElementById("input");
+		var key= input.value;
+		if (key != ''){
+			$.post("db_config.php", {key: key}, function(data){
+		    	console.log(data); 
+		    	// Trim data and put it into #data
+		    
+			});
 		}
-	}
-	})
-}
-)
+	});
+})
 </script>
 
 </head>
 
+<form action="result.php" method="post">
 <div style = "text-align:center;">
-<br><br> <input type="text" id = "input" style="width:500px;height:20px;font-size:18px;" >
-<button  id ="search" onclick="search()" style="width:70px;font-size:15px;">Search</button> <br><br>
+<br><br> <input type="text" id = "input" name="input"  style="width:500px;height:20px;font-size:18px;" >
+<!-- Send course from here --><input type = "submit" value = "Search" id ="search" onclick="search()" style="width:70px;font-size:15px;"> <br><br>
 </div>
+</form>
 
 <div style = "border:2px dotted; border-radius: 10px; height: auto;width: 500px; margin-left:340px;">
 <p id="data0" style="cursor: pointer;" onclick= "changeInput(0)" style= "font-size:20px;"><i>Suggested Words...</i></p>
@@ -104,7 +73,7 @@ $(document).ready(function(){
 </div>
 
 <footer style = "text-align:right; font-size:13px;">
-Safari and 1024x768 or above resolution is recommended.<br>
+Chrome and 1024x768 or above resolution is recommended.<br>
 </footer>
 
 </html>
