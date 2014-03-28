@@ -1,40 +1,43 @@
 <?php
-include 'db_config.php';
+//error_reporting(E_ERROR | E_PARSE);
+include 'db.php';
 
-$result = mysqli_query($con,"SELECT * FROM COURSE_INFO");
-
-while($row = mysqli_fetch_array($result))
-  {
-  echo $row['Course_Subject'] . " " . $row['Course_No'] . " " . $row['Course_Section'] . " " . $row['Professor'];
-  echo "<br>";
-  }
-
-mysqli_close($con);
-
-if ($_POST["input"] != null)
-	echo 'Search: ' . htmlspecialchars($_POST["input"]);
-
+$json = result_search('EECE310');
+// parse this
 ?>
 
 <!doctype html>
 <html>
 <head>
-		<meta charset="UTF-8">
-		<title>PrePAIR Me</title>
-		<h1 style = "text-align : center;"> <br>Result</h1>
-		
-<body style = "text-align:center">
-<button onclick= "goBack()">Return</button>
-</body>
+<script src="jquery-1.10.0.min.js"></script>		
 <script>
 function displayResult(){
+	
+	result = JSON.parse('<?php echo $json?>');
+	//alert(result.array[1].Marks90to100);
+	// 1. Create a table to put all the data
+	// 2. Add user's comments - use accordion
 }
 function goBack(){
 	history.back();
 	
 }
+$(document).ready(function(){
+	displayResult();
+	
+});
+
 
 </script>
+
+		<meta charset="UTF-8">
+		<title>PrePAIR Me</title>
+		<h1 style = "text-align : center;"> <br>Result</h1>
+
 </head>
-<body></body>
+
+<body style = "text-align:center">
+<button onclick= "goBack()">Return</button>
+</body>
+
 </html>
