@@ -4,6 +4,8 @@
 <img src = "UBC_logo_b2.jpg" height="200" width="200" >
 </body>
 <head>
+    <link href="bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+    <script src="bootstrap/assets/js/respond.min.js"></script>  
 		<script src="jquery-1.10.0.min.js"></script>
 		<meta charset="UTF-8">
 		<title>PrePAIR Me</title>
@@ -59,7 +61,58 @@ $(document).ready(function(){
 </script>
 
 </head>
-<div  style = "margin-left:auto; margin-right:auto; width:50%;">
+<body>
+<div style = "overflow: auto; height: 40%">
+<div id="myCarousel" class="carousel slide">
+      <!-- Indicators -->
+      <div class="carousel-inner">
+        <div class="item active">
+           <a href="http://www.intramurals.ubc.ca/events/storm/" ><img src="storm_the_wall.jpg" width="600" alt="First slide"></a>
+          <div class="container">
+            <div class="carousel-caption">
+			  <h3>Event1</h3>
+			  <p>Description 1
+            </div> 
+          </div>
+        </div>
+        <div class="item">
+          <a href="https://www.facebook.com/events/256144937890112/" ><img src="holi_celebration.jpg" width="600" alt="Second slide"></a>
+          <div class="container">
+          	<div class="carousel-caption">
+			  <h3>Event 2</h3>
+			  <p>Description 2
+          	</div>
+          </div>
+        </div>
+        <div class="item">
+          <a href="http://www.events.ubc.ca/2014/03/ubu-roi-unleashes-a-hilarious-reign-of-comic-terror-at-ubc/"><img src="ubu_roi.jpg"  width="600" alt="Third slide"></a>
+          <div class="container">
+          	<div class="carousel-caption">
+			  <h3>werWER</h3>
+			  <p>This is a test.ThiswerwERwertest. This is a test. This is a test.  
+            </div>
+          </div>
+        </div>
+        
+         <div class="item">
+          <a href="http://www.ams.ubc.ca/events/block-party/"><img src="block_party.png"  width="600" alt="Forth slide"></a>
+          <div class="container">
+          	<div class="carousel-caption">
+			  <h3>WERWER1</h3>
+			  <p>This is WERWERest. This is a test. This is a test. This is a test.  
+            </div>
+          </div>
+        </div>
+        
+        
+      </div>
+      <a class="left carousel-control" href="#myCarousel" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a>
+      <a class="right carousel-control" href="#myCarousel" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
+    </div>
+</div>
+    
+
+<div  style = "margin-left:auto; margin-right:auto; width:50%; position :relative;">
 <div style = "margin-left:0;">
 <form action="result.php" method="post">
 <br><br> <input type="text" id = "input" name="input"  style="width:100%;height:20px;font-size:18px;" >
@@ -73,6 +126,11 @@ Search Suggest
 </div>
 </div>
 
+<script src="bootstrap/assets/js/jquery.js"></script>
+<script src="bootstrap/dist/js/bootstrap.js"></script>
+<script src="bootstrap/assets/js/holder.js"></script>
+
+</body>
 <footer style = "text-align:right; font-size:13px;">
 Chrome and 1024x768 or above resolution is recommended.<br>
 </footer>
