@@ -3,13 +3,23 @@
 include 'db.php';
 
 $json = result_search($_POST['input']);
-// parse this
+
 ?>
 
 <!doctype html>
 <html>
 <head>
+<<<<<<< HEAD
 <script src="jquery-1.10.0.min.js"></script>		
+=======
+		<meta charset="UTF-8">
+		<title>PrePAIR Me</title>
+		<h1 style = "text-align : center;"> <br>Result</h1>
+		
+<body style = "text-align:center">
+<button onclick= "goBack()">Return</button>
+</body>
+>>>>>>> master
 <script>
 function displayResult(){
 	
