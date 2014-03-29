@@ -2,7 +2,7 @@
 //error_reporting(E_ERROR | E_PARSE);
 include 'db.php';
 
-$json = result_search('EECE310');
+$json = result_search($_POST['input']);
 // parse this
 ?>
 
