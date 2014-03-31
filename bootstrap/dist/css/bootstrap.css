@@ -5559,11 +5559,13 @@ body.modal-open,.modal-open .navbar-fixed-top,.modal-open .navbar-fixed-bottom
 .carousel {
 	position: relative;
 	padding-left: 0px;
-	margin-right: 30%;
+	margin-right: auto;
+	margin-left: auto;
 	border-style: solid;
 	border-width: 8px;
 	border-color: #696969;
-	width:50%;
+	width:70%;
+	
 }
 
 .carousel-inner {
