@@ -10,9 +10,34 @@ $json = result_search('EECE251');
 <html>
 <head>
 <script src="jquery-1.10.0.min.js"></script>		
-<script src = "accordion.css" type="text/css" rel="stylesheet"></script>
-<script src = "accordion.js"></script>
+    <link href="bootstrap/dist/css/bootstrap.css" rel="stylesheet">  
+    <link href="accordion.css" type="text/css" rel="stylesheet"/>   
 <script>
+
+var accordion_page = 1;
+function slide(direction,totalComment){
+	var to = accordion_page + direction;
+	if (to != 0  && (to != 3 )){
+		
+		$("#accordion"+(accordion_page*5-4)).animate({width:'toggle'},800);
+		$('#accordion'+(to*5-4)).show();
+		
+		$("#accordion"+(accordion_page*5-3)).animate({width:'toggle'},800);
+		$('#accordion'+(to*5-3)).show();
+		
+		$("#accordion"+(accordion_page*5-2)).animate({width:'toggle'},800);
+		$('#accordion'+(to*5-2)).show();
+		
+		$("#accordion"+(accordion_page*5-1)).animate({width:'toggle'},800);
+		$('#accordion'+(to*5-1)).show();
+
+		$("#accordion"+(accordion_page*5)).animate({width:'toggle'},800);
+		$('#accordion'+(to*5)).show();
+		accordion_page = to;
+	}
+	
+}
+
 function displayResult(){
 	
 	result = JSON.parse('<?php echo $json?>');
@@ -45,7 +70,7 @@ function displayResult(){
 		
 		var button_attrs = {
 			'style' :"float:left;",
-			'onclick': 'showComment('+i+')',
+			'onclick': "showComment("+i+",'"+result.array[i].Course_Subject+result.array[i].Course_No+result.array[i].Course_Section+"')",
 			'text' : 'Show Comments'
 		};
 		$('#result'+i).append( $('<button>',button_attrs));
@@ -53,13 +78,96 @@ function displayResult(){
 		$('#result').append("<br><br>");
 	}
 
-
-	// 2. Add user's comments - use accordion
 }
 
-function showComment(commentBox){
-	alert("hi");
+function showComment(result_num,course_str){
+	// $('#MyId').length > 0 check if it exists, if it does don't do this
+		$.post("db_getComment.php", {'course_str': course_str}, function(data){
+			var totalComment = 0;
+			result = JSON.parse(data);
+			//alert(data);
+			
+		// Find the total number of comments	
+		$.each( result.comment, function() {
+	 		 totalComment++;
+		});
+		
+		//alert(totalComment);
+			
+		var commentSet_attrs = {
+			'class' : "bs-example",
+			'id'	: "commentSet" + result_num
+		};
+			$('#result'+result_num).append( $('<div>',commentSet_attrs));
+			
+			var content = '<div class="panel-group">';
+
+			for (var i = 0 ; i < totalComment && i < 5 ; i++){
+				content += '<div style = " overflow : hidden;">';
+	
+				for (var j = 0,k= i+1 ; j < totalComment/5 + 1 && k <= totalComment; j++,k=k+5){
+					content += '<div id = "accordion'+(k)+'" class="panel panel-default" ';
+					if (j == 0)
+						content += 'style = "float:left; width:100%;" >';
+					else
+						content += 'style = "display:none;">';
+					content += '<div class="panel-heading">';
+					content += '<h4 class="panel-title">';
+					content += '<a data-toggle="collapse" href="#collapse'+k+'">';
+					content += '<div class="accordionEventTitle">';
+					content += '<div class="text">';
+					content += '<h1><b>'+result.comment[k-1].date+'</b></h1>';
+					content += '</div></div></a></h4></div>';
+	
+					content += '<div id="collapse'+k+'" class="panel-collapse collapse">';
+					content += '<div class="panel-body">'
+					content += '<p align="left">'+result.comment[k-1].comment+'</p></div></div></div>';
+				}
+				
+				content += '</div>';
+			}
+
+			if (totalComment >= 6){
+				content += '<div class= "carousel_number">';
+				content += '<span><a class = "number" href = "#" onclick="slide(-1,'+totalComment+');return false;"><img src = "prev.png"></a></span>';
+				content += '<span><a class = "number" href = "#" onclick="slide(1,'+totalComment+');return false;"><img src = "next.png"></a></span>';
+			}
+			content += '</div>';
+			
+			content += '<div style = "float:right;"><button onclick = "createTextBox('+"'"+course_str+"'"+','+result_num+');return false;">Add A Comment</button></div>';
+			content += '<div id = "'+course_str+'_TextBox"></div><br><br>';
+			
+			$('#commentSet'+result_num).append(content);
+			
+			$()
+			
+		});
+
 }
+
+function createTextBox(course_str,result_num){
+
+	var content = '<textarea rows = "4" cols = "50" id = "'+course_str+'_comment"></textarea>';
+	content += '<button onclick = "addComment('+"'"+course_str+"'"+','+result_num+');return false;">Submit</button>';
+	
+	$('#'+course_str+'_TextBox').append(content);
+	
+}
+
+function addComment(course_str,result_num){
+
+		$.post("db_addComment.php", {'course_str' : course_str,'comment': $("#"+course_str+"_comment").val()}, function(data){
+		})
+		.done(function(){
+			alert("The comment is added!");
+			$('#commentSet'+result_num).remove();
+		}) 
+		.fail(function(){
+			alert("Cannot add the comment!");
+		});
+
+}
+
 
 function goBack(){
 	history.back();
@@ -78,10 +186,11 @@ $(document).ready(function(){
 
 <body style = "text-align:center">
 <div id = "result"></div>
+
 <button onclick= "goBack()">Return</button>
 
 
-
+    <script src="bootstrap/dist/js/bootstrap.js"></script> <!-- Change to botstrap.js for now -->
 
 </body>
 
