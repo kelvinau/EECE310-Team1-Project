@@ -1,4 +1,5 @@
 <?php
+//error_reporting(E_ERROR | E_PARSE);
 $user = "root";
 $password = "Abc123456789";
 $db = "course_info";
@@ -23,7 +24,7 @@ $sql .=	"VALUES('".$course_subject."',$course_no,'".$course_section."','".$comme
       {
       die('Error: ' . mysqli_error($con));
       }
-    echo "1 record added";
+    //echo "1 record added";
     
 mysqli_close($con);
 
