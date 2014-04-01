@@ -81,7 +81,7 @@ function result_search($key){
 	
 	mysqli_close($con);
 	
-	echo $json;
+	//echo $json;
 	return $json;
 }
 ?>
