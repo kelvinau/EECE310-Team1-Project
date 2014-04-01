@@ -1,8 +1,9 @@
 <?php
-//error_reporting(E_ERROR | E_PARSE);
+error_reporting(E_ERROR | E_PARSE);
 include 'db.php';
 
-$json = result_search('EECE251');
+//$json = result_search('EECE251');
+$json = result_search($_POST['input']);
 
 ?>
 
@@ -17,8 +18,7 @@ $json = result_search('EECE251');
 var accordion_page = 1;
 function slide(direction,totalComment){
 	var to = accordion_page + direction;
-	if (to != 0  && (to != 3 )){
-		
+	if (to != 0  && (to != 4 )){
 		$("#accordion"+(accordion_page*5-4)).animate({width:'toggle'},800);
 		$('#accordion'+(to*5-4)).show();
 		
@@ -46,6 +46,7 @@ function displayResult(){
 	
 	
 	for (var i= 0 ; i <result.array.length;i++){
+		var numOfOneRowItem = 0;
 		var div_attrs = {
 			'id': 'result' + i
 		};
@@ -54,26 +55,72 @@ function displayResult(){
 		var content = "<table border = '1'>";
 		content += "<tr>";
 		$.each( result.array[i], function( key, value ) {
-	 		 content += "<td>" + key +"</td>";
+			if (numOfOneRowItem < 13){
+	 		 content += "<td><b>" + key +"</b></td>";
+	 		 numOfOneRowItem++;
+			}
 		});
 		content += "</tr>";
 		
+		numOfOneRowItem = 0;
 		content += "<tr>";
 		$.each( result.array[i], function( key, value ) {
+			if (numOfOneRowItem<13){
 	 		 content += "<td>" + value +"</td>";
+	 		 numOfOneRowItem++;
+			}
 		});
 		content += "</tr>";
+		
+		numOfOneRowItem = 0;
+		content += "<tr><td></td><td></td><td></td>";
+		$.each( result.array[i], function( key, value ) {
+			if (numOfOneRowItem >= 13 && numOfOneRowItem< 23)
+	 			content += "<td><b>" + key +"</b></td>";
+			numOfOneRowItem++;
+		});
+		content += "</tr>";
+		
+		numOfOneRowItem = 0;
+		content += "<tr><td></td><td></td><td></td>";
+		$.each( result.array[i], function( key, value ) {
+			if (numOfOneRowItem>=13 && numOfOneRowItem< 23)
+	 			content += "<td>" + value +"</td>";
+			numOfOneRowItem++;
+		});
+		content += "</tr>";
+		
+		numOfOneRowItem = 0;
+		content += "<tr><td></td><td></td><td></td>";
+		$.each( result.array[i], function( key, value ) {
+			if (numOfOneRowItem >= 23)
+	 			content += "<td><b>" + key +"</b></td>";
+			numOfOneRowItem++;
+		});
+		content += "</tr>";
+		
+		numOfOneRowItem = 0;
+		content += "<tr><td></td><td></td><td></td>";
+		$.each( result.array[i], function( key, value ) {
+			if (numOfOneRowItem>=23)
+	 			content += "<td>" + value +"</td>";
+			numOfOneRowItem++;
+		});
+		content += "</tr>";
+		
 		
 		content += "</table>";
 		$('#result'+i).append(content);
 		
-		
-		var button_attrs = {
-			'style' :"float:left;",
-			'onclick': "showComment("+i+",'"+result.array[i].Course_Subject+result.array[i].Course_No+result.array[i].Course_Section+"')",
-			'text' : 'Show Comments'
-		};
-		$('#result'+i).append( $('<button>',button_attrs));
+		var course_str = result.array[i].Course_Subject+result.array[i].Course_No+result.array[i].Course_Section;
+		if (course_str.substring(7).localeCompare("OVERALL") != 0){
+			var button_attrs = {
+				'style' :"float:left;",
+				'onclick': "showComment("+i+",'"+course_str+"')",
+				'text' : 'Show Comments'
+			};
+			$('#result'+i).append( $('<button>',button_attrs));
+		}
 		
 		$('#result').append("<br><br>");
 	}
@@ -81,81 +128,86 @@ function displayResult(){
 }
 
 function showComment(result_num,course_str){
-	// $('#MyId').length > 0 check if it exists, if it does don't do this
-		$.post("db_getComment.php", {'course_str': course_str}, function(data){
-			var totalComment = 0;
-			result = JSON.parse(data);
-			//alert(data);
-			
-		// Find the total number of comments	
-		$.each( result.comment, function() {
-	 		 totalComment++;
-		});
-		
-		//alert(totalComment);
-			
-		var commentSet_attrs = {
-			'class' : "bs-example",
-			'id'	: "commentSet" + result_num
-		};
-			$('#result'+result_num).append( $('<div>',commentSet_attrs));
-			
-			var content = '<div class="panel-group">';
-
-			for (var i = 0 ; i < totalComment && i < 5 ; i++){
-				content += '<div style = " overflow : hidden;">';
-	
-				for (var j = 0,k= i+1 ; j < totalComment/5 + 1 && k <= totalComment; j++,k=k+5){
-					content += '<div id = "accordion'+(k)+'" class="panel panel-default" ';
-					if (j == 0)
-						content += 'style = "float:left; width:100%;" >';
-					else
-						content += 'style = "display:none;">';
-					content += '<div class="panel-heading">';
-					content += '<h4 class="panel-title">';
-					content += '<a data-toggle="collapse" href="#collapse'+k+'">';
-					content += '<div class="accordionEventTitle">';
-					content += '<div class="text">';
-					content += '<h1><b>'+result.comment[k-1].date+'</b></h1>';
-					content += '</div></div></a></h4></div>';
-	
-					content += '<div id="collapse'+k+'" class="panel-collapse collapse">';
-					content += '<div class="panel-body">'
-					content += '<p align="left">'+result.comment[k-1].comment+'</p></div></div></div>';
-				}
+		if (!($('#commentSet'+result_num).length > 0)){
+			$.post("db_getComment.php", {'course_str': course_str}, function(data){
+				var totalComment = 0;
+				result = JSON.parse(data);
+				//alert(data);
 				
+			// Find the total number of comments	
+			$.each( result.comment, function() {
+		 		 totalComment++;
+			});
+			
+			//alert(totalComment);
+				
+			var commentSet_attrs = {
+				'class' : "bs-example",
+				'id'	: "commentSet" + result_num
+			};
+				$('#result'+result_num).append( $('<div>',commentSet_attrs));
+				
+				var content = '<div class="panel-group">';
+	
+				for (var i = 0 ; i < totalComment && i < 5 ; i++){
+					content += '<div style = " overflow : hidden;">';
+		
+					for (var j = 0,k= i+1 ; j < totalComment/5 + 1 && k <= totalComment; j++,k=k+5){
+						content += '<div id = "accordion'+course_str+(k)+'" class="panel panel-default" ';
+						if (j == 0)
+							content += 'style = "float:left; width:100%;" >';
+						else
+							content += 'style = "display:none;">';
+						content += '<div class="panel-heading">';
+						content += '<h4 class="panel-title">';
+						content += '<a data-toggle="collapse" href="#collapse'+course_str+k+'">';
+						content += '<div class="accordionEventTitle">';
+						content += '<div class="text">';
+						content += '<h1><b>'+result.comment[k-1].date+'</b></h1>';
+						content += '</div></div></a></h4></div>';
+		
+						content += '<div id="collapse'+course_str+k+'" class="panel-collapse collapse">';
+						content += '<div class="panel-body">'
+						content += '<p align="left">'+result.comment[k-1].comment+'</p></div></div></div>';
+					}
+					
+					content += '</div>';
+				}
+	
+				if (totalComment >= 6){
+					content += '<div class= "carousel_number">';
+					content += '<span><a class = "number" href = "#" onclick="slide(-1,'+totalComment+');return false;"><img src = "prev.png"></a></span>';
+					content += '<span><a class = "number" href = "#" onclick="slide(1,'+totalComment+');return false;"><img src = "next.png"></a></span>';
+				}
 				content += '</div>';
-			}
-
-			if (totalComment >= 6){
-				content += '<div class= "carousel_number">';
-				content += '<span><a class = "number" href = "#" onclick="slide(-1,'+totalComment+');return false;"><img src = "prev.png"></a></span>';
-				content += '<span><a class = "number" href = "#" onclick="slide(1,'+totalComment+');return false;"><img src = "next.png"></a></span>';
-			}
-			content += '</div>';
-			
-			content += '<div style = "float:right;"><button onclick = "createTextBox('+"'"+course_str+"'"+','+result_num+');return false;">Add A Comment</button></div>';
-			content += '<div id = "'+course_str+'_TextBox"></div><br><br>';
-			
-			$('#commentSet'+result_num).append(content);
-			
-			$()
-			
-		});
-
+				
+				content += '<div style = "float:right;"><button onclick = "createTextBox('+"'"+course_str+"'"+','+result_num+');return false;">Add A Comment</button></div>';
+				
+				$('#commentSet'+result_num).append(content);
+		
+			});
+		}
+		else{
+			$('#commentSet'+result_num).remove();
+			accordion_page = 1;
+		}
 }
 
 function createTextBox(course_str,result_num){
-
-	var content = '<textarea rows = "4" cols = "50" id = "'+course_str+'_comment"></textarea>';
-	content += '<button onclick = "addComment('+"'"+course_str+"'"+','+result_num+');return false;">Submit</button>';
-	
-	$('#'+course_str+'_TextBox').append(content);
-	
+	if (!($('#'+course_str+'_TextBox').length > 0)){
+		var content = '<div id = "'+course_str+'_TextBox"></div>';
+		$('#commentSet'+result_num).append(content);
+		
+		content = '<textarea style = "width:100%;" rows = "4" id = "'+course_str+'_comment"></textarea>';
+		content += '<button style = "float:right;" onclick = "addComment('+"'"+course_str+"'"+','+result_num+');return false;">Submit</button>';
+		
+		$('#'+course_str+'_TextBox').append(content);
+	}
+	else
+		$('#'+course_str+'_TextBox').remove();
 }
 
 function addComment(course_str,result_num){
-
 		$.post("db_addComment.php", {'course_str' : course_str,'comment': $("#"+course_str+"_comment").val()}, function(data){
 		})
 		.done(function(){
@@ -184,7 +236,7 @@ $(document).ready(function(){
 
 </head>
 
-<body style = "text-align:center">
+<body style = "text-align:center;background-color:#E6E6FA">
 <div id = "result"></div>
 
 <button onclick= "goBack()">Return</button>

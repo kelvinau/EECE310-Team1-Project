@@ -10,9 +10,6 @@ $course_subject = substr($course_str,0,4);
 $course_no = substr($course_str,4,3);
 $course_section = substr($course_str,7);
 
-$course_subject = "EECE";
-$course_no = "251";
-$course_section = "101";
 
 $sql = "SELECT comment, date FROM comment_table WHERE Course_Subject = '".$course_subject."' AND Course_No = '".$course_no."' AND Course_Section = '".$course_section."' ORDER BY date DESC";
 	
