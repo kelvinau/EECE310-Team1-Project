@@ -1,0 +1,43 @@
+STORY 1 - Checking Course Grades Online
+As a student, I want to be able to view the grades of the course I want to take.
+
+Scenario S1.1: The User selects is able to view the grade of a certain course.
+Given that I've looked up a given course, I should be able to view the grades of the course for the previous term.
+
+Scenario S1.2: The USer is able to view the grades of each section within the course.
+Given that I've looked up a given course, I should be able to view the grades of each section within that course independently. 
+
+STORY 2 - Leaving Comments
+As a student, I want to be able to leave comments on a certain course so I can share my experience of the course with other people. 
+
+Scenario S2.1: The user leaves a comment.
+Given that I've selected a course, I should be able to leave my comments regarding the section so that people can see it. 
+
+
+STORY 3 - View Comments
+As a student, I want to be able to view the comments left by other students regarding the course that I've selected. 
+
+Scenario S3.1: The user views a comment.
+Given that I've selected a course, I should be able to view the comments that other users have left before regarding the course.
+
+Scenario S3.2: The user views a comment with a timestamp.
+Given that I've selected a comment with in the course, I should be able to view the time that the comment was posted so I'll be able to know if it is still relevant. 
+
+Scenario S3.3: The user views a course with lots of comments
+Given that I've selected a course with a lot of comments, I should be able to view them without having them take up too much space. 
+
+
+STORY 4 - Search Bar
+As a student, I want to be able to search out the course that I only know parts of the course of. 
+
+Scenario S4.1: Giving search suggestions
+Given that I've typed up the faculty code of the course, I should be able to view the possible search items that I can look up. 
+
+STORY 5 - Picture Slides
+As a student, I want to be able to find out able recent events happening on campus through pictures or links.
+
+Scenario S5.1 Picture Slides
+Given that I'm viewing the website, I should be able to view the photos of recent events that is occurring in school. 
+
+Scenario S5.2 Links to Origin of Source
+Given that I'm viewing a picture of the events happening on campus, I should be able to be  redirected to the source of the picture so I can find out more information regarding the event. 
